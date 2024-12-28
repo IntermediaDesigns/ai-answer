@@ -1,10 +1,15 @@
+import { Metadata } from "next";
 import ChatInterface from "../../components/ChatInterface";
 
-export default function SharedChatPage({
-  params,
-}: {
+type Props = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+};
+
+export const metadata: Metadata = {
+  title: "Shared Chat",
+  description: "View a shared chat conversation",
+};
+
+export default function SharedChatPage({ params }: Props) {
   return <ChatInterface initialConversationId={params.id} />;
 }
