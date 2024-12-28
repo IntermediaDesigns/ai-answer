@@ -17,7 +17,8 @@ const groq = new Groq({
 // Initialize Appwrite
 const client = new Client()
   .setEndpoint(process.env.APPWRITE_ENDPOINT || "")
-  .setProject(process.env.APPWRITE_PROJECT_ID || "");
+  .setProject(process.env.APPWRITE_PROJECT_ID || "")
+  .setKey(process.env.APPWRITE_API_KEY || "");
 
 const databases = new Databases(client);
 const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || "";
@@ -115,7 +116,8 @@ export async function GET(req: Request) {
         COLLECTION_ID,
         id
       );
-      return Response.json({ messages: document.messages || [] });
+      const messages = document.messages ? JSON.parse(document.messages) : [];
+      return Response.json({ messages });
     } catch {
       // If document not found, return empty array
       return Response.json({ messages: [] });
@@ -149,8 +151,8 @@ export async function POST(req: Request) {
         COLLECTION_ID,
         conversationId
       );
-      if (document.messages && Array.isArray(document.messages)) {
-        existingMessages = document.messages;
+      if (document.messages) {
+        existingMessages = JSON.parse(document.messages);
       }
     } catch {
       // If document not found, we'll create it with the new message
@@ -215,7 +217,7 @@ export async function POST(req: Request) {
           COLLECTION_ID,
           conversationId,
           {
-            messages: existingMessages,
+            messages: JSON.stringify(existingMessages),
           }
         );
       } catch {
@@ -225,7 +227,7 @@ export async function POST(req: Request) {
           COLLECTION_ID,
           conversationId,
           {
-            messages: existingMessages,
+            messages: JSON.stringify(existingMessages),
           }
         );
       }
