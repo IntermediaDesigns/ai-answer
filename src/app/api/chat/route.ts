@@ -1,7 +1,7 @@
 import { Groq } from "groq-sdk";
 import * as cheerio from "cheerio";
 import puppeteer from "puppeteer";
-import { Client, Databases } from "appwrite";
+import { Client, Databases } from "node-appwrite";
 
 interface Message {
   role: "user" | "ai";
