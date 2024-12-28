@@ -1,7 +1,11 @@
-"use client";
-
 import ChatInterface from "../../components/ChatInterface";
 
-export default function SharedChatPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function SharedChatPage({ params }: PageProps) {
   return <ChatInterface initialConversationId={params.id} />;
 }
