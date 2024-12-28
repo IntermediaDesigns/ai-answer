@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 type Message = {
   role: "user" | "ai";
@@ -9,10 +8,13 @@ type Message = {
   sources?: string[]; // Optional array of source URLs
 };
 
-export default function ChatInterface() {
+interface ChatInterfaceProps {
+  initialConversationId?: string;
+}
+
+export default function ChatInterface({ initialConversationId }: ChatInterfaceProps) {
   const [message, setMessage] = useState("");
-  const searchParams = useSearchParams();
-  const conversationId = searchParams.get("id") || crypto.randomUUID();
+  const conversationId = initialConversationId || crypto.randomUUID();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -135,8 +137,7 @@ export default function ChatInterface() {
             </div>
             <button
               onClick={() => {
-                const url = new URL(window.location.href);
-                url.searchParams.set("id", conversationId);
+                const url = new URL(`/chat/${conversationId}`, window.location.origin);
                 navigator.clipboard.writeText(url.toString());
                 alert("Conversation link copied to clipboard!");
               }}
