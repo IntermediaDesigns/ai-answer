@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description: "View a shared chat conversation",
 };
 
-export default function SharedChatPage({ params }: Props) {
+export default async function SharedChatPage({ params }: Props) {
+  // We could fetch initial data here if needed
   return <ChatInterface initialConversationId={params.id} />;
 }
