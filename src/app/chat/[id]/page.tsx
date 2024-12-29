@@ -1,18 +1,16 @@
 import { Metadata } from "next";
 import ChatInterface from "../../components/ChatInterface";
 
-// Update Props type to match Next.js page props structure
-type Props = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-};
+// Remove custom Props type and use Next.js page props pattern
+export default function SharedChatPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  return <ChatInterface initialConversationId={params.id} />;
+}
 
 export const metadata: Metadata = {
   title: "Shared Chat",
   description: "View a shared chat conversation",
 };
-
-export default function SharedChatPage({ params }: Props) {
-  // Remove async since we're not doing any data fetching yet
-  return <ChatInterface initialConversationId={params.id} />;
-}
